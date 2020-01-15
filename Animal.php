@@ -4,8 +4,9 @@ class Animal {
     
     public $uuid;
     
-    public function __construct() {
-        $this->uuid = str_replace('.','',uniqid('',true));
+    //Идентификатор животного воспринимаем, как параметр принимаемый извне
+    public function __construct($uuid) {
+        $this->uuid = $uuid;
     }
     
     public function getProduct() {

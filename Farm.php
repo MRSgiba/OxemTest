@@ -4,24 +4,19 @@ include 'Cow.php';
 include 'Chicken.php';
 
 class Farm {
-    private $animals = [];
+    public $animals = [];
     private $products = [];
     private $infoProducts = [];
-    
-    public function __construct($countCow = 0,$countChicken = 0) {
-        $this->addAnimals('Cow',$countCow);
-        $this->addAnimals('Chicken',$countChicken);
-    }
+    private $permittedAnimals = ['Cow','Chicken'];
 
-    private function addAnimals($className, $count) {
-        $shift = count($this->animals);
-        while (count($this->animals)<$count+$shift) {
-            $animal = new $className;
-            if (!array_key_exists($animal->uuid, $this->animals)) {
-                $this->animals[$animal->uuid] = $animal;
-            }
+
+    public function addAnimal($className,$uuid) {
+        if (!in_array($className, $this->permittedAnimals)) {
+            return false;
         }
+        $animal = new $className($uuid);
         $this->infoProducts[$className::TYPE_PRODUCT] = [$className::NAME_PRODUCT,$className::NAME_UNIT];
+        return $animal;
     }
     
     public function getProducts() {
